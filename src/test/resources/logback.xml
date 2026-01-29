@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Appender para consola (STDOUT) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Appender para archivo (opcional) -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/logs/test-execution.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/logs/test-execution-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Configuración de niveles de log por paquete -->
+
+    <!-- Logs de Serenity BDD -->
+    <logger name="net.serenitybdd" level="INFO"/>
+    <logger name="net.thucydides" level="INFO"/>
+
+    <!-- Logs de Selenium WebDriver -->
+    <logger name="org.openqa.selenium" level="WARN"/>
+    <logger name="org.openqa.selenium.remote" level="WARN"/>
+
+    <!-- Logs de Cucumber -->
+    <logger name="io.cucumber" level="INFO"/>
+
+    <!-- Logs de tu aplicación (com.automation) -->
+    <logger name="com.automation" level="DEBUG"/>
+
+    <!-- Logs de dependencias HTTP (opcional, útil para debugging) -->
+    <logger name="org.apache.http" level="WARN"/>
+    <logger name="org.apache.http.wire" level="WARN"/>
+
+    <!-- Logs de Chrome Driver -->
+    <logger name="org.openqa.selenium.chrome.ChromeDriver" level="WARN"/>
+
+    <!-- Configuración raíz (root logger) -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

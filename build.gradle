@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.0.1'
+}
+
+group = 'com.automation'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Serenity BDD con Screenplay
+    testImplementation "net.serenity-bdd:serenity-core:4.0.1"
+    testImplementation "net.serenity-bdd:serenity-cucumber:4.0.1"
+    testImplementation "net.serenity-bdd:serenity-screenplay:4.0.1"
+    testImplementation "net.serenity-bdd:serenity-screenplay-webdriver:4.0.1"
+
+    // JUnit 4
+    testImplementation "junit:junit:4.13.2"
+
+    // Selenium WebDriver
+    testImplementation "org.seleniumhq.selenium:selenium-java:4.15.0"
+
+    // Cucumber
+    testImplementation "io.cucumber:cucumber-java:7.14.0"
+    testImplementation "io.cucumber:cucumber-junit:7.14.0"
+
+    // AssertJ
+    testImplementation "org.assertj:assertj-core:3.24.2"
+
+    // Logback
+    testImplementation "ch.qos.logback:logback-classic:1.4.11"
+}
+
+test {
+    systemProperty "webdriver.driver", System.getProperty("webdriver.driver", "chrome")
+    testLogging.showStandardStreams = true
+
+    // Usar JUnit 4
+    useJUnit()
+}
+
+tasks.register('cucumber', Test) {
+    include '**/runners/**/*Runner.class'
+    outputs.upToDateWhen { false }
+    testLogging.showStandardStreams = true
+}
+
+gradle.startParameter.continueOnFailure = true
+
+serenity {
+    reports = ["single-page-html"]
+}
